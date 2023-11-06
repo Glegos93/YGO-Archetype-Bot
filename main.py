@@ -29,7 +29,16 @@ async def on_message(message):
     if message.content.startswith("!join"):
         role = discord.utils.get(message.guild.roles, name = "Participant")
         await message.author.add_roles(role)
-        await message.channel.send("Added Participant role!")
+        await message.channel.send("Welcome to the season!")
+    if message.content.startswith('!reset'):
+        if "Admin" not in [role.name for role in message.author.roles]:
+            await message.channel.send("You do not have permission to use this command.")
+            return
+        role = discord.utils.get(message.guild.roles, name = "Participant")
+        for member in message.guild.members:
+            if role in member.roles:
+                await member.remove_roles(role)
+        await message.channel.send("Season over!")
 
 
 client.run(TOKEN)
