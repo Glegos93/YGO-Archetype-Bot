@@ -22,4 +22,11 @@ async def on_message(message):
     if message.author == client.user:
         return
 
+@client.event
+async def on_message(message):
+    if message.content.startswith('!test'):
+        await message.channel.send("it worked")
+
 client.run(TOKEN)
+
+
