@@ -44,6 +44,19 @@ async def on_message(message):
             if role in member.roles:
                 await member.remove_roles(role)
         await message.channel.send("Season over!")
+    if message.content.startswith('!participants'):
+        if "Admin" not in [role.name for role in message.author.roles]:
+            await message.channel.send("You do not have permission to use this command.")
+            return
+        role = discord.utils.get(message.guild.roles, name="Participant")
+        members = []
+        for member in message.guild.members:
+            if role in member.roles:
+                members.append(member.mention)
+
+        message_text = "Current participants: " + ", ".join(members)
+
+        await message.channel.send(message_text)
 
 
 client.run(TOKEN)
