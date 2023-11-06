@@ -26,6 +26,11 @@ async def on_message(message):
 async def on_message(message):
     if message.content.startswith('!test'):
         await message.channel.send("it worked")
+    if message.content.startswith("!join"):
+        role = discord.utils.get(message.guild.roles, name = "Participant")
+        await message.author.add_roles(role)
+        await message.channel.send("Added Participant role!")
+
 
 client.run(TOKEN)
 
