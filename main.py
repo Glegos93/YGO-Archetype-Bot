@@ -2,6 +2,7 @@ import os
 import discord
 from dotenv import load_dotenv
 import deck_scraper
+import deck_review
 
 load_dotenv()
 
@@ -57,10 +58,12 @@ async def on_message(message):
 
         await message.channel.send(message_text)
     if message.content.startswith('!review'):
-        command, url, *rest = message.content.split()
-        archetype = ' '.join(rest)
-        deck_scraper.scrape_decks(url)
-        await message.channel.send(f"Reviewing {archetype} deck from {url}")
+        command, url, *archetype = message.content.split()
+        archetype = ' '.join(archetype)
+        user_deck = deck_scraper.scrape_decks(url)
+        archetype_deck = deck_review.get_card_ids(archetype)
+        percentage = deck_review.count_cards(user_deck, archetype_deck)
+        await message.channel.send(f"Your deck matches {percentage}% of the {archetype} archetype.")
 
 
 client.run(TOKEN)

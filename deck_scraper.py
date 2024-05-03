@@ -25,9 +25,8 @@ def scrape_decks(url):
 
         main = deck_dict.get('main', [])
         extra = deck_dict.get('extra', [])
-        side = deck_dict.get('side', [])
 
-        combined_deck = main + extra + side
+        combined_deck = main + extra
 
         print(combined_deck)
 
