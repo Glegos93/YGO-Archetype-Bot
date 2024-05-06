@@ -62,6 +62,9 @@ async def on_message(message):
         archetype = ' '.join(archetype)
         user_deck = deck_scraper.scrape_decks(url)
         archetype_deck = deck_review.get_card_ids(archetype)
+        archetype_deck1 = deck_review.scrape_yugipedia(archetype)
+        archetype_deck2 = deck_review.scrape_yugioh_archetype(archetype)
+        print(archetype_deck1)
         percentage = deck_review.count_cards(user_deck, archetype_deck)
         await message.channel.send(f"Your deck matches {percentage}% of the {archetype} archetype.")
 
