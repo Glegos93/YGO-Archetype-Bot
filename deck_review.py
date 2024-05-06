@@ -5,16 +5,17 @@ from bs4 import BeautifulSoup
 import re
 import json
 
-
-def get_card_ids(archetype):
-    url = f'https://db.ygoprodeck.com/api/v7/cardinfo.php?archetype={archetype}'
-    response = requests.get(url)
-    data = response.json()
-
-    card_ids = [card['id'] for card in data['data']]
-
-    print(card_ids)
-    return card_ids
+# card ids is outdated, leaving this here for reference
+# def get_card_ids(archetype):
+#     url = f'https://db.ygoprodeck.com/api/v7/cardinfo.php?archetype={archetype}'
+#     response = requests.get(url)
+#     data = response.json()
+#
+#     card_ids = [card['name'] for card in data['data']]
+#
+#     print("below might be names of cards")
+#     print(card_ids)
+#     return card_ids
 
 
 def count_cards(user_deck, archetype_deck):
@@ -49,8 +50,6 @@ def scrape_yugipedia(archetype):
             title = a.get('title')
             if title:
                 yugipedia_archetype_cards.append(title)
-    print("Yugipedia archetype cards: ")
-    print(yugipedia_archetype_cards)
     return yugipedia_archetype_cards
 
 
@@ -75,6 +74,4 @@ def scrape_yugioh_archetype(archetype):
                         b_tag = a_tag.find('b')
                         if b_tag:
                             yugioh_archetype_cards.append(b_tag.get_text(strip=True))
-    print("Yugioh archetype cards: ")
-    print(yugioh_archetype_cards)
     return yugioh_archetype_cards
