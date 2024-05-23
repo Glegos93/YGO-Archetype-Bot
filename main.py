@@ -68,6 +68,7 @@ async def on_message(message):
         message_text = "Current participants: " + ", ".join(members)
 
         await message.channel.send(message_text)
+
     if message.content.startswith('!review'):
         await message.delete()
         command, url, *archetype = message.content.split()
@@ -101,7 +102,19 @@ async def on_message(message):
         draft_state = {participant.id: [] for participant in participants}
         draft_order = [participant.id for participant in participants]
 
-        await message.channel.send(f"Draft started. Order is: {', '.join([str(client.get_user(user_id)) for user_id in draft_order])}")
+        await message.channel.send(
+            f"Draft started. Order is: {', '.join([str(client.get_user(user_id)) for user_id in draft_order])}")
+
+    if message.content.startswith('!commands'):
+        commands = [
+            '!join - Join the season',
+            '!reset - Reset the season',
+            '!participants - Show current participants',
+            '!review {link to deck} {archetype} - Review a deck',
+            '!draft - Start a draft',
+            '!pick - Pick a deck',
+        ]
+        await message.channel.send('\n'.join(commands))
 
     elif message.content.startswith('!pick'):
         if message.author.id not in draft_order:
@@ -120,7 +133,8 @@ async def on_message(message):
             draft_order.remove(message.author.id)
 
         if draft_order:
-            await message.channel.send(f"{deck} picked by {message.author.mention}. Next up is {client.get_user(draft_order[0]).mention}")
+            await message.channel.send(
+                f"{deck} picked by {message.author.mention}. Next up is {client.get_user(draft_order[0]).mention}")
         else:
             await message.channel.send("Draft complete. Here are the picks:")
             for user_id, decks in draft_state.items():
